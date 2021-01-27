@@ -17,6 +17,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 
+
+import sys
+sys.path.append(".")
 from lanenet_model import lanenet
 from lanenet_model import lanenet_postprocess
 from local_utils.config_utils import parse_config_utils
@@ -98,7 +101,7 @@ def test_lanenet(image_path, weights_path):
     sess_config.gpu_options.allocator_type = 'BFC'
 
     sess = tf.Session(config=sess_config)
-
+    """
     # define moving average version of the learned variables for eval
     with tf.variable_scope(name_or_scope='moving_avg'):
         variable_averages = tf.train.ExponentialMovingAverage(
@@ -107,8 +110,11 @@ def test_lanenet(image_path, weights_path):
 
     # define saver
     saver = tf.train.Saver(variables_to_restore)
-
+    """
     with sess.as_default():
+        #saver.restore(sess=sess, save_path=weights_path)
+        saver = tf.train.import_meta_graph(weights_path+'.meta', clear_devices=True)
+        sess.run(tf.global_variables_initializer())
         saver.restore(sess=sess, save_path=weights_path)
 
         t_start = time.time()
