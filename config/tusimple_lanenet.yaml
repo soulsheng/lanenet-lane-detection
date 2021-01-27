@@ -40,7 +40,7 @@ FREEZE:
     PARAMS_FILENAME: 'params'
 MODEL:
     MODEL_NAME: 'lanenet'
-    FRONT_END: 'bisenetv2'
+    FRONT_END: 'vgg'
     EMBEDDING_FEATS_DIMS: 4
     BISENETV2:
         GE_EXPAND_RATIO: 6
