@@ -94,6 +94,8 @@ def test_lanenet(image_path, weights_path):
 
     postprocessor = lanenet_postprocess.LaneNetPostProcessor(cfg=CFG)
 
+    saver = tf.train.Saver()
+    
     # Set sess configuration
     sess_config = tf.ConfigProto()
     sess_config.gpu_options.per_process_gpu_memory_fraction = CFG.GPU.GPU_MEMORY_FRACTION
@@ -112,10 +114,12 @@ def test_lanenet(image_path, weights_path):
     saver = tf.train.Saver(variables_to_restore)
     """
     with sess.as_default():
-        #saver.restore(sess=sess, save_path=weights_path)
+        saver.restore(sess=sess, save_path=weights_path)
+        """
         saver = tf.train.import_meta_graph(weights_path+'.meta', clear_devices=True)
         sess.run(tf.global_variables_initializer())
         saver.restore(sess=sess, save_path=weights_path)
+        """
 
         t_start = time.time()
         loop_times = 500
